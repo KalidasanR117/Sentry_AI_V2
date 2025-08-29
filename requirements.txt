@@ -1,0 +1,13 @@
+ultralytics==8.2.77
+torch
+torchvision
+opencv-python
+decord
+pytorchvideo
+python-telegram-bot==20.3
+reportlab
+fpdf2
+sqlalchemy
+numpy
+pandas
+Pillow
