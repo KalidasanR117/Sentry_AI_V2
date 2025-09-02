@@ -54,7 +54,7 @@ python main.py
 Real-Time Camera:
 
 Set VIDEO_SOURCE = 0 in main.py.
-
+```bash
 sentry_ai/
 │
 ├── models/               # YOLO & I3D weights
@@ -66,7 +66,7 @@ sentry_ai/
 ├── llm/                  # LLM summary generator
 ├── main.py
 └── .env                  # API keys
-
+```
 
 
 🛠 Configuration
