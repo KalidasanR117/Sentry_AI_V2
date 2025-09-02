@@ -12,12 +12,13 @@ from reports.report_generator import generate_pdf_report
 from alerts.telegram_bot import send_alert, send_pdf_with_summary  # Telegram integration
 
 # -------------------- Config --------------------
-VIDEO_SOURCE = r"./tests/V_19.mp4"  # or 0 for webcam
+VIDEO_SOURCE = r"./tests/124.mp4"  # or 0 for webcam
 # VIDEO_SOURCE = 0  # or 0 for webcam
 
 CLIP_LEN = 40                       # I3D clip length
 SCREENSHOT_DIR = r"./output/screenshots"
 os.makedirs(SCREENSHOT_DIR, exist_ok=True)
+YOLO_CONF_THRESHOLD = 0.4
 
 ALERT_COOLDOWN = 15  # seconds between consecutive danger alerts
 
@@ -31,27 +32,36 @@ def main():
 
     for frame, clip in capture_frames(VIDEO_SOURCE):
 
-        # -------------------- YOLO detection --------------------
-        yolo_results = detect_from_frame(frame)
+        
+       # -------------------- YOLO detection --------------------
+        yolo_results = detect_from_frame(frame, threshold=YOLO_CONF_THRESHOLD)
+        if not yolo_results:
+            print(f"[DEBUG] No YOLO detections above threshold {YOLO_CONF_THRESHOLD}")
 
         # -------------------- I3D detection --------------------
         i3d_pred = "normal"
+        i3d_conf = 0.0
         if len(clip) >= CLIP_LEN:
             clip_preprocessed = [cv2.resize(f, (128,128)) for f in clip]
-            i3d_pred, conf = run_prediction(clip_preprocessed)
+            i3d_pred, i3d_conf = run_prediction(clip_preprocessed)
+
+
 
         
         # -------------------- Severity selection --------------------
         severity = select_severity(yolo_results, i3d_pred)
 
         # -------------------- Event logging --------------------
-        log_event(frame, yolo_results, i3d_pred, severity)
+        yolo_classes = []
+        for det in yolo_results:
+            cls = det['class']
+            conf = det.get('confidence', 0.0)
+            yolo_classes.append(f"{cls} ({conf:.2f})")
+
+        log_event(frame, yolo_results, f"{i3d_pred} ({i3d_conf:.2f})", severity)
 
         # -------------------- Save annotated screenshot --------------------
-        save_screenshot = severity in ["danger", "suspicious"]
-        screenshot_path = None
-
-        if save_screenshot:
+        if severity in ["danger", "suspicious"]:
             frame_id = len(event_buffer) + 1
             annotated_frame = frame.copy()
             for det in yolo_results:
@@ -69,11 +79,10 @@ def main():
             screenshot_path = os.path.join(SCREENSHOT_DIR, f"event_{frame_id}.jpg")
             cv2.imwrite(screenshot_path, annotated_frame)
 
-            # Add to event buffer
             event_buffer.append({
                 "frame": frame_id,
-                "yolo": ", ".join([det['class'] for det in yolo_results]),
-                "i3d": i3d_pred,
+                "yolo": ", ".join(yolo_classes),
+                "i3d": f"{i3d_pred} ({i3d_conf:.2f})",
                 "final": severity,
                 "screenshot": screenshot_path
             })

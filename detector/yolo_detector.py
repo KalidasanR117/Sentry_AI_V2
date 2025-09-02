@@ -6,6 +6,8 @@ SUSPICIOUS_CLASSES = ['mask', 'helmet', 'knife']
 NORMAL_CLASSES = ['person']
 
 MODEL_PATH = "./models/best.pt"   # adjust path if needed
+CONF_THRESHOLD = 0.4              # confidence threshold
+
 model = YOLO(MODEL_PATH)
 
 # -------------------- Helpers --------------------
@@ -20,7 +22,7 @@ def classify_detection(cls_name):
     else:
         return "unknown"
 
-def detect_from_frame(frame):
+def detect_from_frame(frame, threshold=CONF_THRESHOLD):
     """
     Run YOLO detection on a single frame (NumPy array).
     Returns a list of detections: 
@@ -31,21 +33,24 @@ def detect_from_frame(frame):
 
     for r in results:
         for box in r.boxes:
+            conf = float(box.conf[0])
+            if conf < threshold:
+                continue  # skip low-confidence predictions
+
             cls_id = int(box.cls[0])
             cls_name = model.names[cls_id]
             severity = classify_detection(cls_name)
             detections.append({
                 "class": cls_name,
                 "severity": severity,
-                "confidence": float(box.conf[0]),
+                "confidence": conf,
                 "bbox": box.xyxy[0].tolist()  # [x1, y1, x2, y2]
             })
 
     return detections
 
-# Optional: for testing with image path
-def detect_from_image(image_path):
+# -------------------- Optional testing --------------------
+def detect_from_image(image_path, threshold=CONF_THRESHOLD):
     import cv2
     frame = cv2.imread(image_path)
-    return detect_from_frame(frame)
-
+    return detect_from_frame(frame, threshold)

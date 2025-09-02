@@ -1,6 +1,7 @@
 import os
 from fpdf import FPDF
 from datetime import datetime
+from PIL import Image
 
 # -------------------- PDF Report Generator with Patterns & Legend --------------------
 class PDFReport(FPDF):
@@ -11,7 +12,6 @@ class PDFReport(FPDF):
         self.set_line_width(0.5)
         self.line(10, 15, 200, 15)
         self.ln(5)
-        # Draw subtle diagonal stripes
         self._draw_background_stripes()
 
     def footer(self):
@@ -21,7 +21,6 @@ class PDFReport(FPDF):
         self.cell(0, 10, f"Page {self.page_no()}", 0, 0, "C")
 
     def _draw_background_stripes(self):
-        """Draw light diagonal stripes for background."""
         self.set_draw_color(220, 220, 220)
         step = 10
         w = int(self.w)
@@ -97,9 +96,21 @@ def generate_pdf_report(event_buffer, summary_text, output_path):
         pdf.set_text_color(0, 0, 0)
         pdf.ln(2)
 
-        # Screenshot
+        # -------------------- Screenshot --------------------
         if os.path.exists(event["screenshot"]):
-            pdf.image(event["screenshot"], w=180)
+            img_path = event["screenshot"]
+            img = Image.open(img_path)
+            img_w, img_h = img.size
+
+            # Max page width and remaining height
+            max_w = 180
+            remaining_h = pdf.h - pdf.get_y() - pdf.b_margin
+
+            scale = min(max_w / img_w, remaining_h / img_h)
+            new_w = img_w * scale
+            new_h = img_h * scale
+
+            pdf.image(img_path, w=new_w, h=new_h)
         else:
             pdf.cell(0, 8, "Screenshot not found.", ln=True)
 

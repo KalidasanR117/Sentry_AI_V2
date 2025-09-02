@@ -74,7 +74,7 @@ sentry_ai/
 
  - **CLIP_LEN → Frames for I3D prediction**  (default: 40)
 
- - **ALERT_COOLDOWN → Time between danger alerts ** (seconds)
+ - **ALERT_COOLDOWN → Time between danger alerts** (seconds)
 
  - **SCREENSHOT_DIR → Folder for annotated screenshots** 
 
