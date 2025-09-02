@@ -31,23 +31,25 @@ python -m venv .venv
 source .venv/bin/activate  # Linux/Mac
 pip install -r requirements.txt
 
-
+```
 
 Configure API Keys
 
 Create a .env file:
 
+```bash
 BOT_TOKEN=<your_telegram_bot_token>
 CHAT_ID=<your_telegram_chat_id>
 GEMINI_API_KEY=<your_gemini_api_key>
-
+```
 
 Run
 
 Video Analysis:
 
+```bash
 python main.py
-
+```
 
 Real-Time Camera:
 
