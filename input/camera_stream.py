@@ -1,27 +1,27 @@
 import cv2
+from collections import deque
 
-class CameraStream:
-    def __init__(self, source=0):
-        """
-        Initialize the camera stream.
-        :param source: 0 = default webcam, or path to a video file.
-        """
-        self.cap = cv2.VideoCapture(source)
+CLIP_LEN = 40  # must match i3d_detector
 
-        if not self.cap.isOpened():
-            raise ValueError(f"Unable to open video source: {source}")
+def capture_frames(source=0):
+    """
+    Generator that yields frames and maintains a buffer for I3D clips.
+    Returns a tuple: (current_frame, clip_buffer)
+    """
+    cap = cv2.VideoCapture(source)
+    if not cap.isOpened():
+        raise Exception(f"Cannot open video source {source}")
 
-    def read_frame(self):
-        """
-        Read a single frame from the camera/video.
-        :return: frame (BGR) or None if end of stream.
-        """
-        ret, frame = self.cap.read()
+    clip_buffer = deque(maxlen=CLIP_LEN)
+
+    while True:
+        ret, frame = cap.read()
         if not ret:
-            return None
-        return frame
+            break
 
-    def release(self):
-        """Release the camera/video capture."""
-        self.cap.release()
-        cv2.destroyAllWindows()
+        # Add frame to clip buffer
+        clip_buffer.append(frame.copy())
+
+        yield frame, list(clip_buffer)
+
+    cap.release()

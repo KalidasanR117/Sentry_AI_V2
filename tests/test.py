@@ -1,10 +1,4 @@
-from ultralytics import YOLO
+import h5py
 
-# Load trained model
-model = YOLO("models/best.pt")
-
-# Test on an image
-# results = model("test.jpg", show=True)
-
-# Or test on webcam
-results = model.predict(source=0, show=True)  # 0 = default webcam
+with h5py.File("./models/keras_model.h5", "r") as f:
+    print(list(f.keys()))

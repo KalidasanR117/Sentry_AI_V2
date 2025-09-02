@@ -5,17 +5,18 @@ __pycache__/
 
 # Virtual environment
 .venv/
+.env
 env/
 venv/
 
 # Logs & Reports
-*.log
+database/logs
 reports/*.pdf
-
+output/
 # Model weights
-*.pt
-*.pth
-*.onnx
+models/*.keras
+models/*.pt
+
 
 # Colab/IDE configs
 .ipynb_checkpoints/
