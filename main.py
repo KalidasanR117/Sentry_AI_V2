@@ -12,8 +12,8 @@ from reports.report_generator import generate_pdf_report
 from alerts.telegram_bot import send_alert, send_pdf_with_summary  # Telegram integration
 
 # -------------------- Config --------------------
-# VIDEO_SOURCE = r"./tests/V_19.mp4"  # or 0 for webcam
-VIDEO_SOURCE = 0  # or 0 for webcam
+VIDEO_SOURCE = r"./tests/V_19.mp4"  # or 0 for webcam
+# VIDEO_SOURCE = 0  # or 0 for webcam
 
 CLIP_LEN = 40                       # I3D clip length
 SCREENSHOT_DIR = r"./output/screenshots"

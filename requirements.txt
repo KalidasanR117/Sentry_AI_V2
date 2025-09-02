@@ -1,13 +1,22 @@
+# AI / ML
 ultralytics==8.2.77
 torch
 torchvision
-opencv-python
 decord
 pytorchvideo
-python-telegram-bot==20.3
-reportlab
-fpdf2
-sqlalchemy
+
+# Computer vision
+opencv-python
+Pillow
 numpy
 pandas
-Pillow
+
+# Telegram alerts
+python-telegram-bot==20.3
+
+# PDF generation
+fpdf2==2.7.4
+reportlab==4.0.0
+
+# Database / logging
+SQLAlchemy==2.0.38

@@ -71,20 +71,22 @@ sentry_ai/
 
 🛠 Configuration
 
-CLIP_LEN → Frames for I3D prediction (default: 40)
 
-ALERT_COOLDOWN → Time between danger alerts (seconds)
+ - **CLIP_LEN → Frames for I3D prediction**  (default: 40)
 
-SCREENSHOT_DIR → Folder for annotated screenshots
+ - **ALERT_COOLDOWN → Time between danger alerts ** (seconds)
 
-LOG_DIR → JSON logs directory
+ - **SCREENSHOT_DIR → Folder for annotated screenshots** 
+
+ - **LOG_DIR → JSON logs directory** 
+
 
 📈 Future Improvements
 
-Face recognition for identity tracking.
+- **Face recognition for identity tracking.**
 
-Web UI for live monitoring.
+- **Web UI for live monitoring.** 
 
-Multi-camera support.
+- **Multi-camera support.** 
 
-GPU acceleration for faster inference.
+- **GPU acceleration for faster inference.** 
