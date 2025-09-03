@@ -1,11 +1,14 @@
 from ultralytics import YOLO
-
+import os
 # -------------------- Config --------------------
 DANGER_CLASSES = ['fire', 'gun']
 SUSPICIOUS_CLASSES = ['mask', 'helmet', 'knife']
 NORMAL_CLASSES = ['person']
 
-MODEL_PATH = "./models/best.pt"   # adjust path if needed
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "best.pt")
+
 CONF_THRESHOLD = 0.4              # confidence threshold
 
 model = YOLO(MODEL_PATH)

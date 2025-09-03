@@ -4,7 +4,10 @@ from tensorflow.keras.models import load_model
 import os
 
 # -------------------- Config --------------------
-MODEL_PATH = "./models/ucf_crime_heavy_model.keras"
+SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
+PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
+MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "ucf_crime_heavy_model.keras")
+
 FRAME_SIZE = (128, 128)
 CLIP_LEN = 40
 THRESHOLD = 0.5  # minimum confidence to consider prediction
