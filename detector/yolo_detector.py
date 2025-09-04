@@ -1,8 +1,8 @@
 from ultralytics import YOLO
 import os
 # -------------------- Config --------------------
-DANGER_CLASSES = ['fire', 'gun']
-SUSPICIOUS_CLASSES = ['mask', 'helmet', 'knife']
+DANGER_CLASSES = [ 'gun']
+SUSPICIOUS_CLASSES = ['mask', 'helmet', 'knife','fire']
 NORMAL_CLASSES = ['person']
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
