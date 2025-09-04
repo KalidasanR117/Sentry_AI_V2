@@ -7,7 +7,7 @@ NORMAL_CLASSES = ['person']
 
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 PROJECT_ROOT = os.path.dirname(SCRIPT_DIR)
-MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "best.pt")
+MODEL_PATH = os.path.join(PROJECT_ROOT, "models", "object_yolo.pt")
 
 CONF_THRESHOLD = 0.4              # confidence threshold
 

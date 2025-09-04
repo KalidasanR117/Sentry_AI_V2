@@ -12,7 +12,7 @@ from reports.report_generator import generate_pdf_report
 from alerts.telegram_bot import send_alert, send_pdf_with_summary  # Telegram integration
 
 # -------------------- Config --------------------
-VIDEO_SOURCE = r"./tests/124.mp4"  # or 0 for webcam
+VIDEO_SOURCE = r"./tests/demo1.gif"  # or 0 for webcam
 SCREENSHOT_DIR = r"./output/screenshots"
 os.makedirs(SCREENSHOT_DIR, exist_ok=True)
 YOLO_CONF_THRESHOLD = 0.4
